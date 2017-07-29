@@ -3,6 +3,9 @@ import os
 from pydub import AudioSegment
 from pydub.playback import play
 
+def tempFile():
+    return "../temp/temp.mp3"
+
 class Sentence:
     def __init__(self, normal):
         self._normal = normal
@@ -27,33 +30,33 @@ class Sentence:
         
     def say(self):
         tts = gTTS(text=self._normal, lang='en')
-        tts.save("temp.mp3")
-        audio = AudioSegment.from_file("temp.mp3")
+        tts.save(tempFile())
+        audio = AudioSegment.from_file(tempFile())
         play(audio)
         
     def sayrev(self):
         tts = gTTS(text=self._reverse, lang='en')
-        tts.save("temp.mp3")
-        audio = AudioSegment.from_file("temp.mp3")
+        tts.save(tempFile())
+        audio = AudioSegment.from_file(tempFile())
         play(audio)
         
     def revsay(self):
         tts = gTTS(text=self._normal, lang='en')
-        tts.save("temp.mp3")
-        audio = AudioSegment.from_file("temp.mp3")
+        tts.save(tempFile())
+        audio = AudioSegment.from_file(tempFile())
         audio = audio.reverse()
         play(audio)    
         
     def sayinterp(self):
         tts = gTTS(text=self._interp, lang='en')
-        tts.save("temp.mp3")
-        audio = AudioSegment.from_file("temp.mp3")
+        tts.save(tempFile())
+        audio = AudioSegment.from_file(tempFile())
         play(audio)    
         
     def sayrevinterp(self):
         tts = gTTS(text=self._interp, lang='en')
-        tts.save("temp.mp3")
-        audio = AudioSegment.from_file("temp.mp3")
+        tts.save(tempFile())
+        audio = AudioSegment.from_file(tempFile())
         audio = audio.reverse()
         play(audio)    
 
@@ -84,15 +87,15 @@ def nospaces(string):
     return new
 
 def interface():
-    print("         __          __          __          __          __          _")
-    print("__    __/  \__    __/  \__    __/  \__    __/  \__    __/  \__    __/ ")
-    print("  \__/  \     \__/  \     \__/  \     \__/  \     \__/  \     \__/  \ ")
-    print("__/     /   __/     /   __/     /   __/     /   __/     /   __/     / ")
-    print("  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \_")
+    print("         __          __          __          __          __           ")
+    print("      __/  \__    __/  \__    __/  \__    __/  \__    __/  \__    __  ")
+    print("   __/  \     \__/  \     \__/  \     \__/  \     \__/  \     \__/  \ ")
+    print("  /     /   __/     /   __/     /   __/     /   __/     /   __/     / ")
+    print("  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \ ")
     print("     \__/  \     \__/  \     \__/  \     \__/  \     \__/  \     \__/ ")
     print("   __/     /   __/     /   __/     /   __/     /   __/     /   __/    ")
-    print("__/  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__  ")
-    print("  \     \__/  \     \__/  \     \__/  \     \__/  \     \__/  \     \_")
+    print("  /  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__   \__/  \__  ")
+    print("  \     \__/  \     \__/  \     \__/  \     \__/  \     \__/  \     \ ")
     print("  /   __/     /   __/     /   __/     /   __/     /   __/     /   __/ ")
     print("  \__/        \__/        \__/        \__/        \__/        \__/    ")
     print("Welcome to the Reversike shell interface for doing cool stuff (check out Mew's 'Nervous')")
