@@ -1,10 +1,39 @@
 from gtts import gTTS
 import os
+from os import path
 from pydub import AudioSegment
 from pydub.playback import play
+import speech_recognition as sr
 
 def tempFile():
     return "../temp/temp.mp3"
+
+def tempFile2():
+    return "../temp/gtemp.mp3"
+        
+def flacFile():
+    return "../temp/gtemp.flac"
+
+def interpRev(sent):
+    tts = gTTS(sent, lang='en')
+    tts.save(tempFile2())      
+    audio = AudioSegment.from_file(tempFile2())
+    audio = audio.reverse()    
+    audio.export(flacFile(), format = "flac")
+    AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), flacFile())
+    
+    r = sr.Recognizer()           #Generate the files for interpretation
+    with sr.AudioFile(AUDIO_FILE) as source:
+        audio = r.record(source)  # read the entire audio file     
+        
+    try:                          #Interpret through google's api
+        interp = r.recognize_google(audio)
+    except sr.UnknownValueError:
+        interp = ""
+    except sr.RequestError as e:
+        interp = ""
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))        
+    return interp
 
 class Sentence:
     def __init__(self, normal):
@@ -147,7 +176,7 @@ def editMenu(sent):
         print("Reverse bundled :"+sent._nosrev)
         print("Normal reverse  :"+sent._reverse)
         print("Interpretation  :"+sent._interp)
-        print("Ee-editSent, Hh-editInterp, Ss-say, Rr-sayRev, Tt-revSay, Ii-sayInterp, Kk-sayRevInterp, Dd-database, Qq-quit")
+        print("Ee-editSent, Hh-editInterp, Ss-say, Rr-sayRev, Tt-revSay, Ii-sayInterp, Kk-sayRevInterp, Oo-autoInterp, Dd-database, Qq-quit")
         inp = input(">")
         if len(inp) == 0:
             print("Input, please")
@@ -165,6 +194,15 @@ def editMenu(sent):
             sent.sayinterp()
         elif inp in "Kk":
             sent.sayrevinterp()     
+        elif inp in "Oo":
+            interp = interpRev(sent._normal)
+            if interp == "":
+                print("Automatic interpretation dectector could not find anything")
+                print("Your old interpretation will not be replaced")
+            else:
+                print("Automatic interpretation detected:")
+                print("          "+interp)
+                sent._interp = interp
         elif inp in "Dd":
             databaseMenu()
         elif inp in "Qq":
