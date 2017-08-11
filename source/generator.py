@@ -79,21 +79,28 @@ def interpRev(sent):
 def runOnce():
     size = wselect({1:4, 2:5, 3:4, 4:3, 5:1})
     sent = mikerar.generateSent(size)
-    
-    interp = interpRev(sent) 
+    try:
+        interp = interpRev(sent) 
+    except:
+        print("something went poop")
+        return (sent, "", "", 0)        
     if interp == "":
         return (sent, "", "", 0) #sentence, interpretation, reinterp score
-    
-    reinterp = interpRev(interp)
+    try:
+        reinterp = interpRev(interp)
+    except:
+        print("something went poop")
+        return (sent, "", "", 0)
     rescore = maxComScore(sent, reinterp)/len(sent)
 
     print(sent + " --> " + interp + " <-- " + reinterp + " # "+str(rescore))
     return (sent, interp, reinterp, rescore)
     
 def iterateAndFile(count=10):
+    print("Dont forget to change filename, ya doofus!")
     for i in range(count):
-        this = runIterations(400,30)
-        f = open("../resources/itandf2_"+str(i)+".txt", "w")
+        this = runIterations(2000,40)
+        f = open("../resources/itandf7_"+str(i)+".txt", "w")
         for j in this:
             f.write(j[0] + " -> " + j[1] + " <- " + j[2] + " #" + str(j[3])+"\n")
         f.close()
