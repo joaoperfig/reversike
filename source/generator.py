@@ -100,7 +100,7 @@ def iterateAndFile(count=10):
     print("Dont forget to change filename, ya doofus!")
     for i in range(count):
         this = runIterations(2000,40)
-        f = open("../resources/itandf7_"+str(i)+".txt", "w")
+        f = open("../resources/itandf9_"+str(i)+".txt", "w")
         for j in this:
             f.write(j[0] + " -> " + j[1] + " <- " + j[2] + " #" + str(j[3])+"\n")
         f.close()
